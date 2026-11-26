@@ -1,6 +1,6 @@
 # Research-first autonomous agent runtime
 
-**Estado:** propuesta de arquitectura en desarrollo; no representa un runtime validado en producción.
+**Estado:** arquitectura en desarrollo con un prototipo local ejecutable; no representa un runtime validado en producción.
 
 ## Por qué estoy investigando esto
 
@@ -87,6 +87,30 @@ Feature: Ejecución de agentes basada en evidencia
     Then la tarea queda bloqueada o fallida
     And sus dependientes no se ejecutan
 ```
+
+## Prototipo local implementado
+
+El primer experimento está en [agent_runtime](../src/meridian_research/agent_runtime/). Requiere Python 3.11 o posterior; el runtime utiliza exclusivamente la biblioteca estándar. Pytest se usa únicamente para las pruebas.
+
+- `contracts.py`: tareas, resultados, estados y contratos de workers.
+- `runtime.py`: DAG validado antes de ejecutar, colas por niveles topológicos, concurrencia acotada, verificación y reintentos limitados.
+- `demo.py`: investigación y planificación simuladas, con evidencia ficticia y salida JSON.
+- [Pruebas](../tests/test_agent_runtime.py): dependencias, falta de evidencia, reintentos, timeout, verificador, concurrencia, cancelación y rechazo de grafos inválidos.
+
+Desde la raíz del repositorio, con pytest instalado:
+
+```bash
+python -m pytest tests/test_agent_runtime.py
+PYTHONPATH=src python -m meridian_research.agent_runtime.demo
+```
+
+En PowerShell, usar `$env:PYTHONPATH = "src"` antes de ejecutar el segundo comando sin el prefijo `PYTHONPATH=src`.
+
+Validación local del prototipo: Python 3.13.5, pytest 9.0.2, 12 casos aprobados; la demostración produjo dos tareas exitosas. Se comprobó que los cinco archivos Python publicados coinciden con los archivos probados mediante sus SHA de blob Git. No se ha ejecutado la suite completa del repositorio ni confirmado CI.
+
+### Límites del experimento
+
+El DAG es definido por el llamador, no generado por un LLM. Los workers son funciones asíncronas confiables, no procesos aislados. La evidencia es sintética; el verificador de demostración no comprueba fuentes reales. El planificador procesa por niveles (una tarea lista puede esperar a otras del mismo nivel); no es un scheduler distribuido. No existe persistencia, backoff, leases, presupuesto temporal global, sandbox, MCP ni ejecución de acciones externas. Los timeouts y la cancelación son cooperativos; no detienen código bloqueante. Los reintentos solo están previstos para workers sin efectos externos. No se han aplicado mutation testing ni Hypothesis. Estas limitaciones deben resolverse antes de una implementación de producción.
 
 ## Cómo evaluar si mejora el resultado
 
