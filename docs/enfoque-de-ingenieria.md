@@ -4,6 +4,18 @@ Mi interés está en construir sistemas que resuelvan problemas reales, no en ac
 
 Mi perfil se orienta a la gestión del desarrollo tecnológico asistido por inteligencia artificial. Actualmente no sé escribir código de forma autónoma sin la asistencia de IA. Mi fortaleza está en comprender los conceptos y las relaciones entre tecnologías, investigar alternativas, definir propuestas de solución, organizar proyectos, establecer prioridades y orquestar agentes para delegar tareas de implementación. Superviso el proceso mediante requisitos, criterios de aceptación y resultados de validación, y recurro a revisión técnica especializada cuando una decisión supera mis conocimientos. En este laboratorio, el código y los experimentos se desarrollan con asistencia de IA; mi contribución se centra en la dirección del trabajo, la toma de decisiones y la mejora continua. Sigo desarrollando mis capacidades de programación y revisión técnica.
 
+Aunque actualmente no escribo código de forma autónoma, mi metodología de desarrollo se basa en la orquestación de agentes especializados de inteligencia artificial.
+
+Dependiendo de la complejidad del proyecto, puedo coordinar hasta diez agentes, asignándoles responsabilidades específicas: investigación, arquitectura, planificación, frontend, backend, bases de datos, seguridad, pruebas, revisión de código y verificación final.
+
+Cada agente investiga dentro de su especialidad, analiza la documentación y presenta sus conclusiones. El orquestador consolida los resultados, identifica contradicciones y establece un plan de ejecución.
+
+Sin embargo, no considero que una solución sea correcta simplemente porque varios agentes estén de acuerdo. Por eso planteo una capa adicional de automatización vinculada a GitHub, capaz de detectar cambios en el repositorio, analizar los archivos modificados y activar controles de calidad.
+
+Si un cambio no supera las pruebas unitarias, de integración, de extremo a extremo o las validaciones de seguridad, no debe aprobarse. El trabajo regresa al agente responsable para su corrección y posterior verificación.
+
+De esta manera, mi metodología no depende de confiar ciegamente en la inteligencia artificial, sino de coordinar capacidades especializadas y evaluar sus resultados mediante evidencia verificable.
+
 ## Por qué estoy desarrollando y entrenando mi propio asistente de IA
 
 Mi motivación nace del mismo problema que describo en el README: no quiero una IA que genere código automáticamente cuando todavía no comprende la tarea. Quiero investigar cómo enseñarle a reconocer incertidumbre, consultar evidencia, planificar y verificar antes de responder.
@@ -118,6 +130,8 @@ Mi objetivo es reducir el trabajo manual, los errores y los tiempos operativos, 
 Para que la automatización sea confiable, mi criterio es investigar, implementar, revisar y medir antes de integrar un cambio. Las comprobaciones pueden ejecutarse localmente o en un entorno autorizado sin depender de runners de GitHub Actions.
 
 Para Python, contemplo pruebas con pytest, análisis estático con Ruff, comprobación de tipos con mypy, criterios de aceptación Gherkin y pruebas de mutación cuando aporten valor. Antes de integrar cambios importantes, revisaría dependencias, riesgos, permisos y resultados de pruebas. Estas herramientas representan una estrategia de calidad, no una afirmación de que todas estén configuradas o hayan sido ejecutadas en este repositorio.
+
+Para conectar este control con GitHub, propongo detectar eventos de cambios mediante webhooks y utilizar un ejecutor externo autorizado, sin depender de GitHub Actions. Los resultados se asociarían al commit evaluado; si cambia el commit, se repetirían las comprobaciones pertinentes. No se debe aprobar una modificación cuando falte una validación obligatoria o esta falle. Esta automatización de control todavía no está configurada en el laboratorio; los diez roles describen mi metodología de delegación, no una prueba de diez agentes simultáneos en producción.
 
 ## Ejemplo: cómo automatizaría una tarea de ingeniería de software
 
