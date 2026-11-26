@@ -55,11 +55,13 @@ Las líneas principales son:
 
 ## Mi enfoque de ingeniería
 
-Además de la arquitectura de agentes, documento mi trabajo y líneas de estudio en servidores MCP, sandboxes, Vercel AI SDK, tokenización, embeddings, entrenamiento e inferencia de modelos, infraestructura y automatización empresarial. Mi prioridad es la calidad del diseño y la resolución de problemas, sin depender de demostraciones visuales ni publicar código propietario.
+El entrenamiento me permite experimentar con el comportamiento del modelo, pero para que un agente trabaje en una empresa necesito una capa adicional de ingeniería de contexto. Combino RAG, embeddings, búsqueda vectorial, memoria persistente y Company Graph para recuperar información autorizada y relevante. Mi diseño propone construir un system prompt versionado, administrar el presupuesto de tokens y verificar la actualidad de las fuentes, sin reentrenar el modelo cada vez que cambian los datos.
 
-En automatización empresarial, mi objetivo es combinar servidores MCP, workflows y modelos de IA para reducir las tareas repetitivas que realizan las personas y asistir en trabajos cuyo volumen o complejidad dificulta su ejecución manual. Prefiero reglas deterministas para operaciones predecibles y modelos de IA para interpretar información y gestionar casos ambiguos, manteniendo revisión humana cuando sea necesaria.
+Una vez recuperado ese contexto, el agente necesita herramientas y una infraestructura de ejecución. Por eso estudio e integro servidores MCP, sandboxes y SDK de inteligencia artificial, y evalúo proyectos de código abierto antes de incorporar sus dependencias. La coordinación mediante colas, eventos, contratos entre servicios y mecanismos de recuperación ante fallos me permite plantear una arquitectura que no dependa de una sola ejecución. También comparo modelos y recursos según calidad, coste y latencia, sin asumir que el modelo más grande sea siempre el adecuado.
 
-Para que mis agentes puedan trabajar con el contexto de una empresa, combino RAG, embeddings, búsqueda vectorial, memoria persistente y Company Graph. Mi diseño propone recuperar información autorizada en cada tarea, construir un system prompt versionado con contexto relevante y delegar subtareas mediante colas, sin tener que reentrenar el modelo cada vez que cambian los datos. El acceso se controla por usuario y workspace; la actualidad y calidad de la información deben verificarse antes de actuar.
+Todo ese trabajo tiene un propósito empresarial: entender los procesos de una organización, identificar tareas repetitivas y operaciones difíciles de realizar manualmente, y diseñar automatizaciones con CRM, ERP, APIs y modelos de IA. Prefiero reglas deterministas para operaciones predecibles y modelos de IA cuando necesito interpretar información. Mantengo la supervisión humana cuando el riesgo lo exige.
+
+Para cerrar ese ciclo aplico principios de código limpio, validación de contratos, pruebas unitarias, de integración y de extremo a extremo, y criterios de aceptación. Mi objetivo es evaluar el resultado mediante evidencia técnica e indicadores de negocio, no acumular tecnologías ni presentar propuestas como implementaciones terminadas.
 
 [Cómo mantengo el contexto empresarial de un agente](docs/enfoque-de-ingenieria.md#cómo-mantengo-el-contexto-empresarial-de-un-agente-rag-memoria-y-company-graph).
 
