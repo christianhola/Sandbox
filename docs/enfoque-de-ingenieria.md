@@ -2,6 +2,8 @@
 
 Mi interés está en construir sistemas que resuelvan problemas reales, no en acumular herramientas ni generar código sin comprenderlo. Meridian Research Lab es un espacio donde documento mi forma de pensar, las decisiones de arquitectura y las tecnologías que exploro en mis proyectos.
 
+Mi perfil se orienta a la gestión del desarrollo tecnológico asistido por inteligencia artificial. Actualmente no sé escribir código de forma autónoma sin la asistencia de IA. Mi fortaleza está en comprender los conceptos y las relaciones entre tecnologías, investigar alternativas, definir propuestas de solución, organizar proyectos, establecer prioridades y orquestar agentes para delegar tareas de implementación. Superviso el proceso mediante requisitos, criterios de aceptación y resultados de validación, y recurro a revisión técnica especializada cuando una decisión supera mis conocimientos. En este laboratorio, el código y los experimentos se desarrollan con asistencia de IA; mi contribución se centra en la dirección del trabajo, la toma de decisiones y la mejora continua. Sigo desarrollando mis capacidades de programación y revisión técnica.
+
 ## Por qué estoy desarrollando y entrenando mi propio asistente de IA
 
 Mi motivación nace del mismo problema que describo en el README: no quiero una IA que genere código automáticamente cuando todavía no comprende la tarea. Quiero investigar cómo enseñarle a reconocer incertidumbre, consultar evidencia, planificar y verificar antes de responder.
