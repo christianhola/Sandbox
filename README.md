@@ -52,11 +52,21 @@ A veces pienso que puedo dejar a los agentes trabajando mientras me tomo un caf�
 >
 > — Yo: «¡Pero si solamente fui a buscar café!».
 
+Pero lo mejor es cuando decido dejar a los agentes trabajando toda la noche.
+
+> — Yo: «Ya te di acceso al repositorio, los permisos necesarios y estás conectada a mi MCP. Hazlo tú sola, revísalo, arréglalo y haz el deploy. Nos vemos mañana».
+>
+> Me levanto ilusionado a las ocho de la mañana, pensando que la aplicación ya está lista. Abro la pantalla y me encuentro un mensaje de hace siete horas y cincuenta y nueve minutos:
+>
+> — IA: «¿Seguro que quieres que modifique este archivo? Responde “Sí” para continuar».
+
+Ocho horas de autonomía y resulta que el único proceso que terminó correctamente fue mi sueño.
+
 Y cuando delego la revisión entre diez agentes, imaginen que la conclusión es que necesitamos un undécimo agente para revisar las conclusiones de los otros diez.
 
 Ahora entienden por qué me interesa tanto la orquestación: la autonomía está muy bien, pero me gustaría poder terminarme el café sin tener que hacer rollback del proyecto.
 
-Fuera de broma, estos diálogos ficticios ilustran un problema real: delegar no significa renunciar al control. Por eso necesito límites de ejecución, criterios de aceptación y evidencia de las validaciones antes de aprobar cambios.
+Fuera de broma, estos diálogos ficticios ilustran un problema real: delegar no significa renunciar al control. Por eso necesito límites de ejecución, criterios de aceptación y evidencia de las validaciones antes de aprobar cambios. También quiero que el agente distinga entre las operaciones ya autorizadas y las que realmente requieren una nueva aprobación, sin saltarse los controles de seguridad.
 
 La automatización de control de cambios es una propuesta de diseño; no está configurada en este repositorio y no requiere GitHub Actions como mecanismo de ejecución.
 
