@@ -10,18 +10,26 @@ Me interesa integrar servidores MCP y herramientas externas con contratos estruc
 
 También exploro Vercel AI SDK para integrar modelos, streaming, llamadas a herramientas y respuestas estructuradas, manteniendo el núcleo de negocio independiente de los proveedores.
 
-## Ingeniería de modelos
+## Por qué estoy desarrollando y entrenando mi propio asistente de IA
 
-Mi línea de estudio comprende el ciclo de vida de los modelos, desde los datos hasta la inferencia:
+Mi motivación nace del mismo problema que describo en el README: no quiero una IA que genere código automáticamente cuando todavía no comprende la tarea. Quiero investigar cómo enseñarle a reconocer incertidumbre, consultar evidencia, planificar y verificar antes de responder.
 
-- Preparación de datasets, deduplicación, separación de entrenamiento, validación y prueba, y detección de contaminación entre conjuntos.
-- Tokenización: vocabulario, segmentación, tokens especiales y algoritmos como BPE.
-- Embeddings: representación vectorial, similitud semántica, indexación, recuperación de información y RAG.
-- Transformers: atención, capas, parámetros entrenables, funciones de pérdida, optimización y checkpoints.
-- Entrenamiento y ajuste fino: diferencias entre preentrenamiento, fine-tuning y técnicas como LoRA; evaluación de generalización y sobreajuste.
-- Inferencia: ventanas de contexto, latencia, memoria, cuantización y coste.
+He realizado experimentos con un Transformer pequeño desarrollado en PyTorch y tokenización BPE. También he trabajado en el ajuste fino supervisado (SFT) de modelos base de la familia Qwen mediante LoRA. Son dos enfoques diferentes: experimentar con una arquitectura desde cero y adaptar un modelo preentrenado. No afirmo haber preentrenado un modelo fundacional de gran escala.
 
-Distingo entre investigar estos conceptos, realizar experimentos de pequeña escala y entrenar modelos de producción. La integración de un proveedor de IA no equivale a entrenar un modelo propio; tampoco un checkpoint por sí solo demuestra calidad.
+En mi proceso de investigación trabajo con:
+
+- Datasets versionados y estructurados, deduplicación, revisión de calidad y separación de entrenamiento, validación y prueba para reducir fugas de información.
+- Tokenizadores BPE, vocabulario, tokens especiales y análisis de longitud de secuencias. Un tokenizador nuevo no se sustituye sin más en un modelo preentrenado: debe ser compatible con sus embeddings y pesos.
+- Arquitecturas Transformer, mecanismos de atención, parámetros entrenables, funciones de pérdida, optimizadores y gradientes.
+- Ajuste fino SFT y LoRA; estudio también QLoRA y cuantización para reducir los recursos necesarios.
+- Checkpoints, adaptadores, pesos y recuperación de estados de entrenamiento para conservar y comparar experimentos.
+- Evaluación mediante conjuntos independientes, pruebas de código, métricas de pérdida y revisión de regresiones. Una pérdida menor no basta para afirmar que el modelo programa mejor.
+- Embeddings, búsqueda semántica y RAG como mecanismos externos de recuperación de contexto, distintos del aprendizaje de los pesos.
+- Inferencia, ventanas de contexto, consumo de memoria y latencia.
+
+Mi objetivo es desarrollar un ciclo de mejora: evaluar el modelo, detectar debilidades, preparar nuevos ejemplos y ejemplos de repaso, entrenar un candidato y volver a evaluarlo antes de aprobarlo. No presento este ciclo como una automatización terminada, ni doy por certificada una versión solo porque se hayan generado pesos. Parte de los experimentos de entrenamiento se ha realizado; la evaluación comparativa y la validación del comportamiento research-first siguen pendientes.
+
+No publico datasets privados, pesos ni detalles internos innecesarios de mis proyectos en este laboratorio.
 
 ## Sistemas empresariales e infraestructura
 
