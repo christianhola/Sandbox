@@ -45,6 +45,18 @@ Me interesa conectar la inteligencia artificial con sistemas de trabajo reales: 
 
 Mi entorno tecnológico incluye Python, TypeScript, Node.js, React, Next.js, PostgreSQL, Prisma y Supabase, junto con plataformas de despliegue como Vercel y Railway. La elección de una tecnología debe responder al problema, sus restricciones y su coste operativo.
 
+## Automatización de procesos con MCP e inteligencia artificial
+
+Mi enfoque de automatización parte de las tareas que una persona realiza diariamente dentro de una empresa. Me interesa identificar procesos repetitivos, operaciones que consumen demasiado tiempo y trabajos que, por su volumen o complejidad, una persona difícilmente podría realizar manualmente a la escala necesaria.
+
+Para eso planteo utilizar servidores MCP (Model Context Protocol) como una capa de conexión entre los agentes y las herramientas de trabajo: APIs, CRM, ERP, bases de datos, documentos y otros servicios. MCP facilita el acceso estructurado a herramientas; la programación, los disparadores, las colas y la coordinación del flujo corresponden al motor de automatización.
+
+No utilizo un modelo de IA para todo. Cuando una tarea tiene reglas claras, prefiero código determinista, validaciones y workflows. Integro modelos de inteligencia artificial cuando el trabajo requiere comprender documentos, clasificar información no estructurada, resumir grandes volúmenes de datos o detectar posibles inconsistencias. Las decisiones sensibles, los casos ambiguos y las excepciones deben poder escalarse a una persona.
+
+Por ejemplo, en un proceso administrativo, un workflow puede recopilar documentos mediante herramientas MCP, validar campos con reglas explícitas, utilizar un modelo para interpretar texto y preparar un informe para revisión humana. Es un ejemplo de diseño, no una integración con un cliente que afirme tener desplegada.
+
+Mi objetivo es reducir el trabajo manual, los errores y los tiempos operativos, manteniendo permisos, trazabilidad y responsabilidad humana. Evaluaría cada automatización mediante tiempo ahorrado, tasa de errores, coste por ejecución y proporción de casos que necesitan intervención.
+
 ## SDK, herramientas y sistemas que he explorado o integrado
 
 En Meridian he trabajado con Vercel AI SDK para streaming, tool calling, estado del chat, transporte de eventos y adaptadores de modelos OpenAI, Anthropic y Google. También he trabajado con el SDK de Anthropic y el de Google Generative AI. Estudio OpenAI SDK, OpenAI Agents SDK y Claude Agent SDK como alternativas de integración y orquestación; no los presento como integraciones completas solo por haber utilizado sus modelos o un adaptador.
