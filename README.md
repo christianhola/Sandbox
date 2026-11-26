@@ -24,6 +24,20 @@ Este repositorio es un laboratorio público de investigación sobre agentes aut�
 
 Mi perfil se orienta a la gestión del desarrollo tecnológico asistido por inteligencia artificial. Actualmente no sé escribir código de forma autónoma sin la asistencia de IA. Mi fortaleza está en comprender los conceptos y las relaciones entre tecnologías, investigar alternativas, definir propuestas de solución, organizar proyectos, establecer prioridades y orquestar agentes para delegar tareas de implementación. Superviso el proceso mediante requisitos, criterios de aceptación y resultados de validación, y recurro a revisión técnica especializada cuando una decisión supera mis conocimientos. En este laboratorio, el código y los experimentos se desarrollan con asistencia de IA; mi contribución se centra en la dirección del trabajo, la toma de decisiones y la mejora continua. Sigo desarrollando mis capacidades de programación y revisión técnica.
 
+Aunque actualmente no escribo código de forma autónoma, mi metodología de desarrollo se basa en la orquestación de agentes especializados de inteligencia artificial.
+
+Dependiendo de la complejidad del proyecto, puedo coordinar hasta diez agentes, asignándoles responsabilidades específicas: investigación, arquitectura, planificación, frontend, backend, bases de datos, seguridad, pruebas, revisión de código y verificación final.
+
+Cada agente investiga dentro de su especialidad, analiza la documentación y presenta sus conclusiones. El orquestador consolida los resultados, identifica contradicciones y establece un plan de ejecución.
+
+Sin embargo, no considero que una solución sea correcta simplemente porque varios agentes estén de acuerdo. Por eso planteo una capa adicional de automatización vinculada a GitHub, capaz de detectar cambios en el repositorio, analizar los archivos modificados y activar controles de calidad.
+
+Si un cambio no supera las pruebas unitarias, de integración, de extremo a extremo o las validaciones de seguridad, no debe aprobarse. El trabajo regresa al agente responsable para su corrección y posterior verificación.
+
+De esta manera, mi metodología no depende de confiar ciegamente en la inteligencia artificial, sino de coordinar capacidades especializadas y evaluar sus resultados mediante evidencia verificable.
+
+La automatización de control de cambios es una propuesta de diseño; no está configurada en este repositorio y no requiere GitHub Actions como mecanismo de ejecución.
+
 La idea central es sencilla: una IA no debería limitarse a generar código a partir de sus propias suposiciones. Debería poder entender el contexto, consultar fuentes actuales, revisar herramientas disponibles, comparar opciones y mostrar sus decisiones antes de ejecutar una acción.
 
 Este proyecto documenta esa investigación de forma incremental. Algunas partes son propuestas de arquitectura, otras son experimentos y otras son documentación de decisiones. No presento como terminado lo que todavía está en desarrollo.
