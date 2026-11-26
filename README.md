@@ -36,6 +36,28 @@ Si un cambio no supera las pruebas unitarias, de integración, de extremo a extr
 
 De esta manera, mi metodología no depende de confiar ciegamente en la inteligencia artificial, sino de coordinar capacidades especializadas y evaluar sus resultados mediante evidencia verificable.
 
+Y si alguien se pregunta por qué insisto tanto en supervisar a los agentes, basta con imaginar una de mis conversaciones con la IA (en versión humorística):
+
+> — Yo: «Te dije que así no. Mejóralo. Revísalo tú mismo, ya tienes acceso autorizado al MCP. Haz que funcione».
+>
+> La IA procesa el código durante cinco segundos y me responde:
+>
+> — IA: «Entendido. Revisé el repositorio y llegué a la conclusión de que el error crítico está entre la silla y el teclado. ¿Quieres que haga deploy de tu paciencia?».
+
+A veces pienso que puedo dejar a los agentes trabajando mientras me tomo un café.
+
+> — Yo: «Voy por un café. Corrijan el backend, pero no toquen el frontend».
+>
+> — IA: «Entendido. Mientras no estabas, llegamos a un consenso: lo mejor era migrar todo el proyecto a otro framework».
+>
+> — Yo: «¡Pero si solamente fui a buscar café!».
+
+Y cuando delego la revisión entre diez agentes, imaginen que la conclusión es que necesitamos un undécimo agente para revisar las conclusiones de los otros diez.
+
+Ahora entienden por qué me interesa tanto la orquestación: la autonomía está muy bien, pero me gustaría poder terminarme el café sin tener que hacer rollback del proyecto.
+
+Fuera de broma, estos diálogos ficticios ilustran un problema real: delegar no significa renunciar al control. Por eso necesito límites de ejecución, criterios de aceptación y evidencia de las validaciones antes de aprobar cambios.
+
 La automatización de control de cambios es una propuesta de diseño; no está configurada en este repositorio y no requiere GitHub Actions como mecanismo de ejecución.
 
 La idea central es sencilla: una IA no debería limitarse a generar código a partir de sus propias suposiciones. Debería poder entender el contexto, consultar fuentes actuales, revisar herramientas disponibles, comparar opciones y mostrar sus decisiones antes de ejecutar una acción.
