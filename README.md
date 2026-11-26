@@ -30,7 +30,7 @@ Este proyecto documenta esa investigación de forma incremental. Algunas partes 
 
 No estoy en contra de la IA. Mi crítica es que generar código sin comprender el problema, investigar fuentes o validar supuestos puede introducir errores y deuda técnica. Estoy diseñando un agente autónomo que primero reúne evidencia, luego planifica, delega subtareas mediante una cola, ejecuta trabajos autorizados de forma aislada y verifica los resultados antes de integrarlos.
 
-[Diseño del runtime autónomo research-first](docs/research-first-agent-runtime.md): grafo de dependencias, workers especializados, subprocesos, límites de ejecución, reintentos y criterios de evaluación. Es una propuesta en desarrollo, no una implementación validada.
+[Diseño del runtime autónomo research-first](docs/research-first-agent-runtime.md): grafo de dependencias, workers especializados, subprocesos, límites de ejecución, reintentos y criterios de evaluación. Incluye un [prototipo local ejecutable](src/meridian_research/agent_runtime/) con [pruebas automatizadas](tests/test_agent_runtime.py). La arquitectura completa sigue en desarrollo.
 
 ## Qué estoy investigando
 
