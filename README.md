@@ -177,6 +177,8 @@ La investigación se apoya en documentación pública de [Model Context Protocol
 
 ## Cómo colaborar
 
+Me interesa colaborar con personas y empresas que quieran resolver problemas operativos mediante software, integración de sistemas e inteligencia artificial. Mi aportación se centra en investigar el problema, organizar el proyecto, proponer alternativas y coordinar el desarrollo asistido por IA, con criterios de aceptación y revisión técnica cuando sea necesaria. Para mí, una colaboración comienza entendiendo el proceso real y definiendo qué resultado debe mejorar, antes de elegir una tecnología.
+
 Las colaboraciones deben concentrarse en este repositorio. Una contribución útil puede ser una propuesta de arquitectura, una comparación reproducible, una mejora documental, una prueba de evaluación o una implementación pequeña con criterios claros.
 
 Antes de abrir un pull request, revisa [CONTRIBUTING.md](CONTRIBUTING.md). Las propuestas deben explicar el problema, los supuestos, las fuentes utilizadas y la forma de verificar el resultado.
