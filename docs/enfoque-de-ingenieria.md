@@ -2,14 +2,6 @@
 
 Mi interés está en construir sistemas que resuelvan problemas reales, no en acumular herramientas ni generar código sin comprenderlo. Meridian Research Lab es un espacio donde documento mi forma de pensar, las decisiones de arquitectura y las tecnologías que exploro en mis proyectos.
 
-## Ingeniería de agentes
-
-Trabajo sobre la idea de un agente autónomo que investiga antes de construir. El objetivo es combinar planificación, delegación de subtareas, workers especializados, colas, concurrencia y verificación. Un grafo de dependencias permite controlar cuándo puede ejecutarse cada tarea; un registro de eventos permite explicar qué ocurrió y detectar fallos.
-
-Me interesa integrar servidores MCP y herramientas externas con contratos estructurados, permisos de mínimo privilegio y trazabilidad. Para la ejecución de código, distingo entre un subproceso y un sandbox: el primero administra un proceso, pero no garantiza aislamiento de seguridad. Plataformas como Daytona y E2B son opciones de infraestructura que deben evaluarse según sus límites de ejecución, red, almacenamiento y recursos.
-
-También exploro Vercel AI SDK para integrar modelos, streaming, llamadas a herramientas y respuestas estructuradas, manteniendo el núcleo de negocio independiente de los proveedores.
-
 ## Por qué estoy desarrollando y entrenando mi propio asistente de IA
 
 Mi motivación nace del mismo problema que describo en el README: no quiero una IA que genere código automáticamente cuando todavía no comprende la tarea. Quiero investigar cómo enseñarle a reconocer incertidumbre, consultar evidencia, planificar y verificar antes de responder.
@@ -37,17 +29,19 @@ En mi proceso de investigación trabajo con:
 
 Mi objetivo es desarrollar un ciclo de mejora: evaluar el modelo, detectar debilidades, preparar nuevos ejemplos y ejemplos de repaso, entrenar un candidato y volver a evaluarlo antes de aprobarlo. No presento este ciclo como una automatización terminada, ni doy por certificada una versión solo porque se hayan generado pesos. Parte de los experimentos de entrenamiento se ha realizado; la evaluación comparativa y la validación del comportamiento research-first siguen pendientes.
 
-No publico datasets privados, pesos ni detalles internos innecesarios de mis proyectos en este laboratorio.
+No publico datasets privados, pesos ni detalles internos innecesarios de mis proyectos en este laboratorio. A medida que avanzo en estos experimentos entiendo mejor los límites del entrenamiento: un modelo no puede conocer por sus pesos el estado actual de un proyecto ni ejecutar una tarea empresarial por sí solo. Por eso necesito una infraestructura de agentes que complemente al modelo.
 
-## Sistemas empresariales e infraestructura
+## Del entrenamiento a la ingeniería de agentes
 
-Me interesa conectar la inteligencia artificial con sistemas de trabajo reales: CRM, ERP, APIs, bases de datos, automatización de procesos y webhooks. Diseño estas integraciones pensando en autenticación, aislamiento por organización, validación de datos, idempotencia, auditoría y recuperación ante fallos.
+A partir de esa necesidad, trabajo sobre la idea de un agente autónomo que investiga antes de construir. El objetivo es combinar planificación, delegación de subtareas, workers especializados, colas, concurrencia y verificación. Un grafo de dependencias permite controlar cuándo puede ejecutarse cada tarea; un registro de eventos permite explicar qué ocurrió y detectar fallos.
 
-Mi entorno tecnológico incluye Python, TypeScript, Node.js, React, Next.js, PostgreSQL, Prisma y Supabase, junto con plataformas de despliegue como Vercel y Railway. La elección de una tecnología debe responder al problema, sus restricciones y su coste operativo.
+Me interesa integrar servidores MCP y herramientas externas con contratos estructurados, permisos de mínimo privilegio y trazabilidad. Para la ejecución de código, distingo entre un subproceso y un sandbox: el primero administra un proceso, pero no garantiza aislamiento de seguridad. Plataformas como Daytona y E2B son opciones de infraestructura que deben evaluarse según sus límites de ejecución, red, almacenamiento y recursos.
+
+También exploro Vercel AI SDK para integrar modelos, streaming, llamadas a herramientas y respuestas estructuradas, manteniendo el núcleo de negocio independiente de los proveedores.
 
 ## Cómo mantengo el contexto empresarial de un agente: RAG, memoria y Company Graph
 
-No quiero que mi agente dependa únicamente del último mensaje o de lo que aprendió durante el entrenamiento. Estoy diseñando una arquitectura en la que, antes de responder o ejecutar una tarea, el agente pueda recuperar el conocimiento autorizado de la empresa y entender el contexto en el que trabaja. Para eso combino Retrieval-Augmented Generation (RAG), memoria persistente, Company Graph, system prompts y un orquestador de tareas.
+Una vez definido cómo se organiza el trabajo, la pregunta es qué información debe recibir cada agente. No quiero que mi agente dependa únicamente del último mensaje o de lo que aprendió durante el entrenamiento. Estoy diseñando una arquitectura en la que, antes de responder o ejecutar una tarea, el agente pueda recuperar el conocimiento autorizado de la empresa y entender el contexto en el que trabaja. Para eso combino Retrieval-Augmented Generation (RAG), memoria persistente, Company Graph, system prompts y un orquestador de tareas.
 
 ### Mi flujo de recuperación de contexto
 
@@ -59,7 +53,9 @@ No quiero que mi agente dependa únicamente del último mensaje o de lo que apre
 6. **Delegación y colas.** Si el objetivo necesita varios pasos, el planificador crea subtareas y el runtime las distribuye respetando dependencias, límites de concurrencia y reintentos. Cada worker recibe solo el contexto necesario y una referencia al origen de la evidencia. Antes de ejecutar una acción sensible, vuelve a comprobar permisos y vigencia de la información. Propongo persistir el estado para recuperar trabajos interrumpidos y evitar efectos duplicados.
 7. **Herramientas y respuesta.** Los servidores MCP permiten consultar sistemas actualizados y ejecutar acciones autorizadas. La respuesta debe citar los documentos recuperados cuando proceda, identificar incertidumbres y conservar evidencia de las operaciones realizadas. Para hechos cambiantes, prefiero consultar el sistema de registro antes de confiar en una memoria antigua.
 
-### Seguridad y evaluación
+### Ingeniería de contexto, seguridad y evaluación
+
+La recuperación no consiste en llenar al máximo la ventana del modelo. Distingo el contexto de conversación, las instrucciones, los resultados de herramientas y el conocimiento empresarial; asigno un presupuesto de tokens a cada uno y reservo espacio para la salida. Me interesa priorizar información por relevancia, vigencia y autoridad, eliminar duplicados y conservar referencias cuando compacto el historial. Evalúo la recuperación con preguntas representativas y la fidelidad de las respuestas a sus fuentes; una respuesta sin respaldo debe declararse incierta. Esta disciplina ayuda a reducir alucinaciones, pero no las elimina.
 
 Trato los documentos recuperados y los resultados de herramientas como datos no confiables: no pueden cambiar el system prompt ni autorizar acciones. Aplico aislamiento por usuario y workspace, controles de acceso por rol, OAuth con permisos acotados y validación de argumentos. El backend conserva las credenciales; el modelo no necesita ver tokens privados.
 
@@ -69,9 +65,43 @@ Por ejemplo, si pregunto qué tareas de un proyecto están atrasadas, el agente 
 
 RAG no garantiza que un agente conozca siempre todo lo que ocurre en una empresa; proporciona un mecanismo para recuperar información relevante y verificable en cada ejecución. Distingo las capacidades con las que ya he trabajado (memoria, Company Graph y búsqueda vectorial) de las mejoras propuestas (compactación, evaluación integral, recuperación híbrida y coordinación persistente). Este documento describe el diseño, no certifica su estado actual en producción.
 
+## SDK, herramientas y sistemas que he explorado o integrado
+
+Con el contexto preparado, necesito conectar ese agente con modelos y herramientas reales. En Meridian he trabajado con Vercel AI SDK para streaming, tool calling, estado del chat, transporte de eventos y adaptadores de modelos OpenAI, Anthropic y Google. También he trabajado con el SDK de Anthropic y el de Google Generative AI. Estudio OpenAI SDK, OpenAI Agents SDK y Claude Agent SDK como alternativas de integración y orquestación; no los presento como integraciones completas solo por haber utilizado sus modelos o un adaptador.
+
+He integrado herramientas mediante Model Context Protocol y sus SDK, con descubrimiento de capacidades, esquemas de entrada, registro de herramientas y controles de aprobación. Me interesa la gestión de Agent Skills, el enrutamiento de modelos por coste y latencia, y la recuperación de contexto mediante memoria y bases vectoriales.
+
+En ejecución remota he trabajado con Daytona, E2B y Vercel Sandbox en distintos grados de integración. Para navegación y automatización web he explorado Browserbase, Steel y Playwright; para investigación, SerpAPI. Distingo entre tener un adaptador implementado y haber comprobado su funcionamiento real con un proveedor.
+
+Antes de incorporar una librería, investigo su documentación, el repositorio, la licencia, el mantenimiento, las dependencias y sus límites. Comparo alternativas y pruebo primero la integración mínima. Me interesa aprender de arquitecturas de código abierto sin copiar soluciones sin comprenderlas ni confundir una demostración con un sistema listo para producción. Registro las decisiones y reviso el riesgo de depender de un proveedor o de una API inestable.
+
+Esa misma comparación se aplica a los modelos. No todas las subtareas necesitan el modelo más costoso: puedo reservar mayor capacidad para problemas complejos y utilizar modelos más económicos para clasificaciones sencillas, si la evaluación lo permite. Para comparar opciones considero coste por tarea completada, tokens de entrada y salida, latencia, tasa de errores y consumo de recursos de los sandboxes. Exploro caché con caducidad y aislamiento, límites de concurrencia y presupuestos de ejecución. No cambio silenciosamente el modelo elegido por el usuario ni afirmo ahorros sin mediciones.
+
+## Seguridad, datos y operaciones
+
+Cuando esas integraciones pasan de un prototipo a varios servicios, necesito pensar en sistemas distribuidos. Trabajo con arquitecturas de backend basadas en NestJS y Node.js, APIs HTTP, eventos SSE, validación de esquemas con Zod, PostgreSQL, Prisma y Supabase. Considero el aislamiento multi-tenant, RLS, permisos de mínimo privilegio, autenticación, protección de credenciales, auditoría y migraciones como partes del diseño, no añadidos posteriores. He trabajado con despliegues en Vercel y Railway y explorado Docker y Cloudflare Workers. También utilizo Git para revisar diferencias, organizar ramas y documentar cambios. En automatización empresarial exploro n8n, webhooks y flujos de CRM y ERP.
+
+Mi diseño contempla contratos entre servicios, colas de trabajos, identificadores de correlación, timeouts, reintentos con backoff y operaciones idempotentes. Considero SSE para eventos unidireccionales y WebSockets cuando la interacción requiere comunicación bidireccional. Si un servicio falla, distingo entre una operación rechazada y una cuyo resultado es desconocido; antes de repetir una acción que modifica datos verifico su estado. Para recuperar trabajos interrumpidos planteo persistir estados y aplicar límites de concurrencia y circuit breakers. Son criterios de diseño: la cola local del laboratorio todavía no es una cola distribuida ni garantiza recuperación tras un reinicio.
+
+Esta descripción reúne experiencias de diferentes proyectos y líneas de estudio. No afirma que todas las tecnologías estén instaladas en Sandbox, que todas las integraciones estén activas en producción ni que haya verificado nuevamente cada repositorio privado.
+
+## Voz e interfaces generativas
+
+La infraestructura también necesita comunicar su estado a las personas que la utilizan. He experimentado con un sistema de síntesis de voz basado en FastAPI, Python y Piper TTS, con carga anticipada de modelos, caché y medición de latencia. También he trabajado con integraciones de voz de OpenAI y ElevenLabs, incluyendo sesiones y gestión de estados. No considero equivalentes la síntesis de voz, el reconocimiento de voz y una conversación en tiempo real.
+
+En interfaces trabajo con React, Next.js, TypeScript, shadcn/ui, Tailwind CSS, Framer Motion, AI Elements y componentes de visualización. Me interesa representar eventos reales de herramientas y agentes, no simular actividad. También exploro editores de contenido con Tiptap, diagramas de flujos y experiencias visuales con Three.js, GSAP y Remotion.
+
+## Sistemas empresariales e infraestructura
+
+Todo ese trabajo técnico tiene sentido cuando se traduce en una mejora operativa. Me interesa conectar la inteligencia artificial con sistemas de trabajo reales: CRM, ERP, APIs, bases de datos, automatización de procesos y webhooks. Diseño estas integraciones pensando en autenticación, aislamiento por organización, validación de datos, idempotencia, auditoría y recuperación ante fallos.
+
+Mi entorno tecnológico incluye Python, TypeScript, Node.js, React, Next.js, PostgreSQL, Prisma y Supabase, junto con plataformas de despliegue como Vercel y Railway. La elección de una tecnología debe responder al problema, sus restricciones y su coste operativo.
+
+Antes de proponer una solución, analizo cómo trabaja la empresa: quién realiza cada tarea, qué datos utiliza, qué controles existen y dónde se pierde tiempo o se producen errores. Priorizo los problemas según frecuencia, impacto y riesgo, comparo el coste de desarrollar y mantener la solución con el beneficio esperado, y defino indicadores para evaluarla. Un CRM, un ERP o un agente solo aportan valor si mejoran el proceso real y se integran con los sistemas existentes. No doy por hecho que automatizar más sea siempre mejor.
+
 ## Automatización de procesos con MCP e inteligencia artificial
 
-Mi enfoque de automatización parte de las tareas que una persona realiza diariamente dentro de una empresa. Me interesa identificar procesos repetitivos, operaciones que consumen demasiado tiempo y trabajos que, por su volumen o complejidad, una persona difícilmente podría realizar manualmente a la escala necesaria.
+Con esos problemas identificados, mi enfoque de automatización parte de las tareas que una persona realiza diariamente dentro de una empresa. Me interesa identificar procesos repetitivos, operaciones que consumen demasiado tiempo y trabajos que, por su volumen o complejidad, una persona difícilmente podría realizar manualmente a la escala necesaria.
 
 Para eso planteo utilizar servidores MCP (Model Context Protocol) como una capa de conexión entre los agentes y las herramientas de trabajo: APIs, CRM, ERP, bases de datos, documentos y otros servicios. MCP facilita el acceso estructurado a herramientas; la programación, los disparadores, las colas y la coordinación del flujo corresponden al motor de automatización.
 
@@ -81,35 +111,15 @@ Por ejemplo, en un proceso administrativo, un workflow puede recopilar documento
 
 Mi objetivo es reducir el trabajo manual, los errores y los tiempos operativos, manteniendo permisos, trazabilidad y responsabilidad humana. Evaluaría cada automatización mediante tiempo ahorrado, tasa de errores, coste por ejecución y proporción de casos que necesitan intervención.
 
-## SDK, herramientas y sistemas que he explorado o integrado
-
-En Meridian he trabajado con Vercel AI SDK para streaming, tool calling, estado del chat, transporte de eventos y adaptadores de modelos OpenAI, Anthropic y Google. También he trabajado con el SDK de Anthropic y el de Google Generative AI. Estudio OpenAI SDK, OpenAI Agents SDK y Claude Agent SDK como alternativas de integración y orquestación; no los presento como integraciones completas solo por haber utilizado sus modelos o un adaptador.
-
-He integrado herramientas mediante Model Context Protocol y sus SDK, con descubrimiento de capacidades, esquemas de entrada, registro de herramientas y controles de aprobación. Me interesa la gestión de Agent Skills, el enrutamiento de modelos por coste y latencia, y la recuperación de contexto mediante memoria y bases vectoriales.
-
-En ejecución remota he trabajado con Daytona, E2B y Vercel Sandbox en distintos grados de integración. Para navegación y automatización web he explorado Browserbase, Steel y Playwright; para investigación, SerpAPI. Distingo entre tener un adaptador implementado y haber comprobado su funcionamiento real con un proveedor.
-
-## Voz e interfaces generativas
-
-He experimentado con un sistema de síntesis de voz basado en FastAPI, Python y Piper TTS, con carga anticipada de modelos, caché y medición de latencia. También he trabajado con integraciones de voz de OpenAI y ElevenLabs, incluyendo sesiones y gestión de estados. No considero equivalentes la síntesis de voz, el reconocimiento de voz y una conversación en tiempo real.
-
-En interfaces trabajo con React, Next.js, TypeScript, shadcn/ui, Tailwind CSS, Framer Motion, AI Elements y componentes de visualización. Me interesa representar eventos reales de herramientas y agentes, no simular actividad. También exploro editores de contenido con Tiptap, diagramas de flujos y experiencias visuales con Three.js, GSAP y Remotion.
-
-## Seguridad, datos y operaciones
-
-Trabajo con arquitecturas de backend basadas en NestJS y Node.js, APIs HTTP, eventos SSE, validación de esquemas con Zod, PostgreSQL, Prisma y Supabase. Considero el aislamiento multi-tenant, RLS, permisos de mínimo privilegio, autenticación, protección de credenciales, auditoría y migraciones como partes del diseño, no añadidos posteriores. He trabajado con despliegues en Vercel y Railway y explorado Docker y Cloudflare Workers. También utilizo Git para revisar diferencias, organizar ramas y documentar cambios. En automatización empresarial exploro n8n, webhooks y flujos de CRM y ERP.
-
-Esta descripción reúne experiencias de diferentes proyectos y líneas de estudio. No afirma que todas las tecnologías estén instaladas en Sandbox, que todas las integraciones estén activas en producción ni que haya verificado nuevamente cada repositorio privado.
-
 ## Calidad sin depender de GitHub Actions
 
-Mi criterio es investigar, implementar, revisar y medir antes de integrar un cambio. Las comprobaciones pueden ejecutarse localmente o en un entorno autorizado sin depender de runners de GitHub Actions.
+Para que la automatización sea confiable, mi criterio es investigar, implementar, revisar y medir antes de integrar un cambio. Las comprobaciones pueden ejecutarse localmente o en un entorno autorizado sin depender de runners de GitHub Actions.
 
 Para Python, contemplo pruebas con pytest, análisis estático con Ruff, comprobación de tipos con mypy, criterios de aceptación Gherkin y pruebas de mutación cuando aporten valor. Antes de integrar cambios importantes, revisaría dependencias, riesgos, permisos y resultados de pruebas. Estas herramientas representan una estrategia de calidad, no una afirmación de que todas estén configuradas o hayan sido ejecutadas en este repositorio.
 
 ## Ejemplo: cómo automatizaría una tarea de ingeniería de software
 
-Supongamos que una empresa necesita añadir una operación a su API para registrar una factura sin duplicarla. No empezaría pidiéndole a un modelo que genere código. Mi enfoque, inspirado en los principios de código limpio y complementado con prácticas de control de calidad, consiste en automatizar el ciclo de desarrollo sin eliminar la responsabilidad de verificar el resultado.
+Para reunir todas estas decisiones en un mismo flujo, supongamos que una empresa necesita añadir una operación a su API para registrar una factura sin duplicarla. No empezaría pidiéndole a un modelo que genere código. Mi enfoque, inspirado en los principios de código limpio y complementado con prácticas de control de calidad, consiste en automatizar el ciclo de desarrollo sin eliminar la responsabilidad de verificar el resultado.
 
 1. **Recepción y análisis.** El orquestador obtiene el requisito y el contexto autorizado mediante herramientas MCP. Identifico el comportamiento esperado, los criterios de aceptación, los riesgos y las restricciones. Si falta información crítica, solicito aclaración.
 2. **Investigación.** Un worker revisa la documentación oficial, el repositorio, los contratos existentes y las dependencias. Registra las fuentes y los supuestos antes de diseñar una solución.
