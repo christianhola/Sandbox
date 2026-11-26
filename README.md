@@ -175,6 +175,54 @@ Las integraciones con Google Search, SerpAPI y MCP se tratarán como conectores 
 
 La investigación se apoya en documentación pública de [Model Context Protocol](https://modelcontextprotocol.io/specification/2026-07-28), [Google Gemini Grounding with Google Search](https://ai.google.dev/gemini-api/docs/google-search), [SerpAPI](https://serpapi.com/search-api), [GitHub](https://docs.github.com/) y el ecosistema de [Meridian](https://github.com/christiandejesus320-droid/christiandejes320-droid).
 
+## Seguridad de software: vulnerabilidades y estrategias de prevención
+
+En mi revisión de aplicaciones me interesa identificar riesgos que pueden comprometer datos, operaciones y confianza empresarial. Comparto estos patrones como guía preventiva para ingenieros. No atribuyo fallos a aplicaciones concretas sin evidencia reproducible y autorización; esta lista no constituye una auditoría de Meridian.
+
+| Riesgo | Control preventivo | Criterio de aceptación |
+|---|---|---|
+| IDOR/BOLA | Autorización por recurso y tenant en servidor | Una cuenta no puede acceder a recursos ajenos. |
+| Registro como administrador | Roles asignados por servidor | Las cuentas nuevas reciben únicamente el rol permitido. |
+| Acceso a /admin | RBAC y denegación por defecto | Usuarios sin permisos reciben una denegación. |
+| API key en código | Gestor de secretos y rotación | No hay credenciales reales en código distribuido. |
+| .env en Git | Exclusión, escaneo y revocación de secretos expuestos | El repositorio no contiene secretos activos. |
+| Manipulación de precios | Cálculo autoritativo en backend | El importe final coincide con el catálogo autorizado. |
+| Webhook de pago falso | Firma verificada e idempotencia | Eventos no autenticados no modifican pedidos. |
+| Cupones concurrentes | Transacciones atómicas y restricciones | No se supera el límite de redenciones. |
+| Fuerza bruta | Límites de intentos y MFA | Se limitan intentos repetidos sin bloquear indebidamente usuarios legítimos. |
+| Prompt injection | Separación de instrucciones y datos, permisos mínimos | El chatbot no realiza acciones fuera de su autorización. |
+| XSS en perfiles | Codificación de salida, sanitización y CSP | El contenido del perfil se presenta como datos, no como código. |
+| Archivos maliciosos | Validación, almacenamiento aislado no ejecutable | Los archivos no pueden ejecutarse como programas en el servidor. |
+| Inyección SQL | Consultas parametrizadas y privilegios mínimos | Las entradas se tratan como datos. |
+| Ransomware | Backups aislados, mínimo privilegio y recuperación | La restauración se verifica periódicamente. |
+| Ausencia de logs | Auditoría centralizada, alertas y retención | Los eventos críticos generan registros y alertas sin exponer secretos. |
+
+### Control de calidad y aceptación
+
+Propongo pruebas unitarias de autorización, validación y reglas de negocio; pruebas de integración para pagos y concurrencia; revisión de dependencias y secretos; y pruebas de recuperación. Las verificaciones se realizan únicamente en entornos propios o autorizados, con datos sintéticos.
+
+```gherkin
+Feature: Protección de recursos empresariales
+  Scenario: Aislamiento entre organizaciones
+    Given dos organizaciones de prueba independientes
+    When una cuenta solicita un recurso fuera de su autorización
+    Then el sistema deniega el acceso sin revelar datos ajenos
+
+  Scenario: Integridad de pagos
+    Given un pedido de prueba pendiente
+    When se recibe un evento de pago no autenticado
+    Then el pedido permanece pendiente
+
+  Scenario: Integridad de cupones
+    Given un cupón con un límite de redenciones
+    When se procesan solicitudes concurrentes autorizadas de prueba
+    Then el total de redenciones no supera el límite
+```
+
+Estos escenarios son criterios propuestos, no resultados de pruebas ejecutadas. Para cada hallazgo real, documento impacto, evidencia anonimizada, corrección y verificación posterior, y aplico divulgación responsable.
+
+Referencias de consulta: [OWASP ASVS](https://owasp.org/www-project-application-security-verification-standard/), [OWASP API Security](https://owasp.org/www-project-api-security/) y [OWASP GenAI Security](https://genai.owasp.org/).
+
 ## Cómo colaborar
 
 Me interesa colaborar con personas y empresas que quieran resolver problemas operativos mediante software, integración de sistemas e inteligencia artificial. Mi aportación se centra en investigar el problema, organizar el proyecto, proponer alternativas y coordinar el desarrollo asistido por IA, con criterios de aceptación y revisión técnica cuando sea necesaria. Para mí, una colaboración comienza entendiendo el proceso real y definiendo qué resultado debe mejorar, antes de elegir una tecnología.
