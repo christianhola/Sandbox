@@ -83,6 +83,44 @@ Mi criterio es investigar, implementar, revisar y medir antes de integrar un cam
 
 Para Python, contemplo pruebas con pytest, análisis estático con Ruff, comprobación de tipos con mypy, criterios de aceptación Gherkin y pruebas de mutación cuando aporten valor. Antes de integrar cambios importantes, revisaría dependencias, riesgos, permisos y resultados de pruebas. Estas herramientas representan una estrategia de calidad, no una afirmación de que todas estén configuradas o hayan sido ejecutadas en este repositorio.
 
+## Ejemplo: cómo automatizaría una tarea de ingeniería de software
+
+Supongamos que una empresa necesita añadir una operación a su API para registrar una factura sin duplicarla. No empezaría pidiéndole a un modelo que genere código. Mi enfoque, inspirado en los principios de código limpio y complementado con prácticas de control de calidad, consiste en automatizar el ciclo de desarrollo sin eliminar la responsabilidad de verificar el resultado.
+
+1. **Recepción y análisis.** El orquestador obtiene el requisito y el contexto autorizado mediante herramientas MCP. Identifico el comportamiento esperado, los criterios de aceptación, los riesgos y las restricciones. Si falta información crítica, solicito aclaración.
+2. **Investigación.** Un worker revisa la documentación oficial, el repositorio, los contratos existentes y las dependencias. Registra las fuentes y los supuestos antes de diseñar una solución.
+3. **Planificación y delegación.** Divido el trabajo en subtareas de arquitectura, implementación, seguridad y pruebas. El grafo de dependencias y la cola determinan cuáles pueden ejecutarse en paralelo y cuáles deben esperar.
+4. **Implementación.** El worker de desarrollo trabaja en una rama y un entorno aislado autorizado, con datos ficticios. Aplico nombres claros, funciones con responsabilidades delimitadas, contratos explícitos, manejo de errores y separación de responsabilidades. Evito abstracciones innecesarias.
+5. **Validación estática.** Reviso tipos, esquemas, formato, dependencias, secretos y el diff. Utilizo herramientas de análisis apropiadas para el lenguaje, sin confiar únicamente en la revisión del modelo.
+6. **Pruebas unitarias y de integración.** Compruebo la lógica de validación, la idempotencia, el manejo de errores y la interacción con la API y una base de datos de pruebas. Incluyo solicitudes simultáneas cuando existe riesgo de duplicación.
+7. **Pruebas de extremo a extremo (E2E).** Verifico el flujo completo desde la solicitud autenticada hasta la respuesta y el registro persistido. Compruebo escenarios válidos, datos incorrectos, duplicados y acceso no autorizado. Si existe una interfaz, puedo utilizar Playwright para verificar el recorrido de usuario.
+8. **Revisión y mejora.** Un worker verificador independiente contrasta los resultados con los criterios de aceptación. Si encuentra fallos, devuelve una subtarea acotada al desarrollador; se vuelven a ejecutar las pruebas pertinentes y la suite de regresión. Considero mutation testing para comprobar que las pruebas detectan cambios defectuosos.
+9. **Quality gate y aprobación.** Recopilo evidencia de pruebas, archivos modificados, riesgos pendientes y resultados de revisión. Si una comprobación obligatoria falla o no se ejecutó, no doy la tarea por aprobada. La integración o el despliegue requieren autorización según el riesgo.
+
+### Criterios de aceptación del ejemplo (Gherkin)
+
+```gherkin
+Feature: Registro de facturas sin duplicados
+  Scenario: Registrar una factura válida
+    Given una persona autenticada con permiso de registro
+    When envía una factura válida con una clave de idempotencia nueva
+    Then la API confirma el registro
+    And existe exactamente un registro de esa operación
+
+  Scenario: Repetir la misma solicitud
+    Given una factura registrada con una clave de idempotencia
+    When se repite la misma solicitud con esa clave
+    Then no se crea una segunda factura
+
+  Scenario: Solicitud sin permisos
+    Given una persona sin permiso de registro
+    When intenta registrar una factura
+    Then la API rechaza la operación
+    And no se modifica la base de datos
+```
+
+Estos escenarios son criterios propuestos, no pruebas ejecutadas. Este flujo describe cómo diseñaría una automatización de ingeniería; no afirma que se haya implementado una solución de facturación electrónica ni que cumpla requisitos fiscales específicos. Las validaciones pueden ejecutarse localmente sin GitHub Actions. El modelo propone o interpreta; las herramientas de prueba y la evidencia verificable determinan si el resultado cumple los requisitos.
+
 ## Alcance público
 
 Este laboratorio documenta mis líneas de trabajo sin divulgar código propietario, datos de clientes ni credenciales. Las propuestas, los prototipos y las capacidades validadas se mantienen diferenciados. No pretendo construir una demostración para cada concepto: la documentación también sirve para explicar decisiones, limitaciones y aprendizajes.
