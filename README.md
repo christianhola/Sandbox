@@ -57,6 +57,8 @@ Las líneas principales son:
 
 Además de la arquitectura de agentes, documento mi trabajo y líneas de estudio en servidores MCP, sandboxes, Vercel AI SDK, tokenización, embeddings, entrenamiento e inferencia de modelos, infraestructura y automatización empresarial. Mi prioridad es la calidad del diseño y la resolución de problemas, sin depender de demostraciones visuales ni publicar código propietario.
 
+En automatización empresarial, mi objetivo es combinar servidores MCP, workflows y modelos de IA para reducir las tareas repetitivas que realizan las personas y asistir en trabajos cuyo volumen o complejidad dificulta su ejecución manual. Prefiero reglas deterministas para operaciones predecibles y modelos de IA para interpretar información y gestionar casos ambiguos, manteniendo revisión humana cuando sea necesaria.
+
 [Leer mi enfoque de ingeniería de software e inteligencia artificial](docs/enfoque-de-ingenieria.md).
 
 ## Estado actual
