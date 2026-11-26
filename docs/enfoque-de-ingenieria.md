@@ -16,6 +16,14 @@ Mi motivación nace del mismo problema que describo en el README: no quiero una 
 
 He realizado experimentos con un Transformer pequeño desarrollado en PyTorch y tokenización BPE. También he trabajado en el ajuste fino supervisado (SFT) de modelos base de la familia Qwen mediante LoRA. Son dos enfoques diferentes: experimentar con una arquitectura desde cero y adaptar un modelo preentrenado. No afirmo haber preentrenado un modelo fundacional de gran escala.
 
+### Entrenamiento en Kaggle y aceleración GPU
+
+Utilizo Kaggle Notebooks como entorno de experimentación con aceleración NVIDIA CUDA. He registrado ejecuciones de entrenamiento en Tesla T4 y preparado notebooks para la configuración T4 ×2. Cada T4 dispone de 16 GB de memoria nominal; las memorias de dos tarjetas no se combinan automáticamente. En una configuración inicial seleccioné únicamente `cuda:0`, por lo que no afirmo haber realizado entrenamiento distribuido en ambas GPU.
+
+Mi stack experimental incluye Python, PyTorch y CUDA, modelos Qwen, ajuste fino supervisado (SFT), adaptadores LoRA y configuraciones QLoRA con cuantización NF4 de 4 bits. También he preparado configuraciones con PEFT, Accelerate y Unsloth. Antes de entrenar compruebo el dispositivo disponible y su memoria; durante los experimentos me interesa controlar el tamaño de lote, la acumulación de gradientes, la longitud de secuencia, las pérdidas y los checkpoints. La cuantización y el ajuste de adaptadores permiten reducir los requisitos de memoria frente al ajuste completo de los pesos, aunque su impacto debe evaluarse para cada modelo.
+
+Los resultados del entrenamiento deben distinguirse de la certificación mediante benchmarks independientes. No afirmo que la configuración de dos GPU haya sido ejecutada de forma distribuida ni que todos los experimentos planificados hayan concluido correctamente.
+
 En mi proceso de investigación trabajo con:
 
 - Datasets versionados y estructurados, deduplicación, revisión de calidad y separación de entrenamiento, validación y prueba para reducir fugas de información.
