@@ -59,6 +59,10 @@ Además de la arquitectura de agentes, documento mi trabajo y líneas de estudio
 
 En automatización empresarial, mi objetivo es combinar servidores MCP, workflows y modelos de IA para reducir las tareas repetitivas que realizan las personas y asistir en trabajos cuyo volumen o complejidad dificulta su ejecución manual. Prefiero reglas deterministas para operaciones predecibles y modelos de IA para interpretar información y gestionar casos ambiguos, manteniendo revisión humana cuando sea necesaria.
 
+Para que mis agentes puedan trabajar con el contexto de una empresa, combino RAG, embeddings, búsqueda vectorial, memoria persistente y Company Graph. Mi diseño propone recuperar información autorizada en cada tarea, construir un system prompt versionado con contexto relevante y delegar subtareas mediante colas, sin tener que reentrenar el modelo cada vez que cambian los datos. El acceso se controla por usuario y workspace; la actualidad y calidad de la información deben verificarse antes de actuar.
+
+[Cómo mantengo el contexto empresarial de un agente](docs/enfoque-de-ingenieria.md#cómo-mantengo-el-contexto-empresarial-de-un-agente-rag-memoria-y-company-graph).
+
 [Leer mi enfoque de ingeniería de software e inteligencia artificial](docs/enfoque-de-ingenieria.md).
 
 ## Estado actual
