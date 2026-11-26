@@ -68,6 +68,18 @@ Ahora entienden por qué me interesa tanto la orquestación: la autonomía está
 
 Fuera de broma, estos diálogos ficticios ilustran un problema real: delegar no significa renunciar al control. Por eso necesito límites de ejecución, criterios de aceptación y evidencia de las validaciones antes de aprobar cambios. También quiero que el agente distinga entre las operaciones ya autorizadas y las que realmente requieren una nueva aprobación, sin saltarse los controles de seguridad.
 
+### Cómo planteo resolverlo: delegación paso a paso
+
+La solución que estoy diseñando consiste en distribuir el trabajo de manera controlada, en lugar de entregar todo el proyecto a una sola instancia del modelo y esperar que resuelva cada problema por su cuenta.
+
+1. **El agente principal planifica.** Recibe mi instrucción general, investiga la estructura del proyecto, identifica requisitos y dependencias, y divide el objetivo en subtareas concretas con criterios de aceptación.
+2. **Crea subagentes aislados.** El orquestador inicia sesiones independientes de agentes especializados, por ejemplo, para la interfaz visual, la base de datos y las pruebas. Cada uno recibe un rol, herramientas autorizadas y límites de ejecución. No es necesario duplicar físicamente los pesos del modelo para crear esas sesiones.
+3. **Contexto independiente para cada agente.** Cada subagente dispone de su propia ventana de contexto. Mediante RAG, embeddings y un system prompt específico, recibe los archivos pertinentes, las instrucciones de su tarea y los contratos compartidos que necesita respetar. Así reduzco el ruido y la duplicación de contexto sin perder información esencial.
+4. **Trabajo en paralelo.** Las subtareas independientes entran en una cola y pueden ejecutarse simultáneamente. Los agentes trabajan en entornos y espacios de trabajo separados, por ejemplo, mediante sandboxes y Git worktrees. Las tareas con dependencias esperan a que se validen sus requisitos previos. Si dos cambios afectan al mismo componente, el orquestador debe coordinar su orden o resolver los conflictos.
+5. **Revisión e integración final.** Cada subagente devuelve sus cambios, resultados de pruebas, fuentes consultadas y limitaciones. El agente principal consolida la evidencia, revisa los diffs y coordina la resolución de conflictos. Después se valida el conjunto mediante pruebas unitarias, de integración, de extremo a extremo y controles de seguridad. Si algo falla, la tarea vuelve al agente responsable. Solo se propone integrar el código cuando supera los criterios establecidos; los cambios sensibles y el despliegue mantienen sus controles de autorización.
+
+De este modo, mi objetivo no es que los agentes trabajen sin supervisión, sino que avancen dentro de permisos definidos, sin bloquear innecesariamente las tareas independientes y conservando evidencia de cada decisión. Esta arquitectura es una propuesta en desarrollo: el prototipo local demuestra parte de la orquestación con workers simulados, pero todavía no implementa el aislamiento completo, la ejecución real de modelos ni la integración automática de cambios.
+
 La automatización de control de cambios es una propuesta de diseño; no está configurada en este repositorio y no requiere GitHub Actions como mecanismo de ejecución.
 
 La idea central es sencilla: una IA no debería limitarse a generar código a partir de sus propias suposiciones. Debería poder entender el contexto, consultar fuentes actuales, revisar herramientas disponibles, comparar opciones y mostrar sus decisiones antes de ejecutar una acción.
