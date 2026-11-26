@@ -47,6 +47,12 @@ Las líneas principales son:
 | MCP | ¿Cómo conectar agentes con datos y herramientas externas sin perder control, permisos ni trazabilidad? |
 | Skills | ¿Cómo describir, descubrir y cargar capacidades bajo demanda sin saturar el contexto? |
 
+## Mi enfoque de ingeniería
+
+Además de la arquitectura de agentes, documento mi trabajo y líneas de estudio en servidores MCP, sandboxes, Vercel AI SDK, tokenización, embeddings, entrenamiento e inferencia de modelos, infraestructura y automatización empresarial. Mi prioridad es la calidad del diseño y la resolución de problemas, sin depender de demostraciones visuales ni publicar código propietario.
+
+[Leer mi enfoque de ingeniería de software e inteligencia artificial](docs/enfoque-de-ingenieria.md).
+
 ## Estado actual
 
 Este repositorio está en fase de investigación y prototipado. Los documentos describen diseños y criterios que todavía deben validarse con implementaciones, pruebas y métricas. Las APIs externas no se incluyen con claves reales y las integraciones se documentan mediante contratos y ejemplos seguros.
