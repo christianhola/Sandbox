@@ -45,6 +45,26 @@ Me interesa conectar la inteligencia artificial con sistemas de trabajo reales: 
 
 Mi entorno tecnológico incluye Python, TypeScript, Node.js, React, Next.js, PostgreSQL, Prisma y Supabase, junto con plataformas de despliegue como Vercel y Railway. La elección de una tecnología debe responder al problema, sus restricciones y su coste operativo.
 
+## SDK, herramientas y sistemas que he explorado o integrado
+
+En Meridian he trabajado con Vercel AI SDK para streaming, tool calling, estado del chat, transporte de eventos y adaptadores de modelos OpenAI, Anthropic y Google. También he trabajado con el SDK de Anthropic y el de Google Generative AI. Estudio OpenAI SDK, OpenAI Agents SDK y Claude Agent SDK como alternativas de integración y orquestación; no los presento como integraciones completas solo por haber utilizado sus modelos o un adaptador.
+
+He integrado herramientas mediante Model Context Protocol y sus SDK, con descubrimiento de capacidades, esquemas de entrada, registro de herramientas y controles de aprobación. Me interesa la gestión de Agent Skills, el enrutamiento de modelos por coste y latencia, y la recuperación de contexto mediante memoria y bases vectoriales.
+
+En ejecución remota he trabajado con Daytona, E2B y Vercel Sandbox en distintos grados de integración. Para navegación y automatización web he explorado Browserbase, Steel y Playwright; para investigación, SerpAPI. Distingo entre tener un adaptador implementado y haber comprobado su funcionamiento real con un proveedor.
+
+## Voz e interfaces generativas
+
+He experimentado con un sistema de síntesis de voz basado en FastAPI, Python y Piper TTS, con carga anticipada de modelos, caché y medición de latencia. También he trabajado con integraciones de voz de OpenAI y ElevenLabs, incluyendo sesiones y gestión de estados. No considero equivalentes la síntesis de voz, el reconocimiento de voz y una conversación en tiempo real.
+
+En interfaces trabajo con React, Next.js, TypeScript, shadcn/ui, Tailwind CSS, Framer Motion, AI Elements y componentes de visualización. Me interesa representar eventos reales de herramientas y agentes, no simular actividad. También exploro editores de contenido con Tiptap, diagramas de flujos y experiencias visuales con Three.js, GSAP y Remotion.
+
+## Seguridad, datos y operaciones
+
+Trabajo con arquitecturas de backend basadas en NestJS y Node.js, APIs HTTP, eventos SSE, validación de esquemas con Zod, PostgreSQL, Prisma y Supabase. Considero el aislamiento multi-tenant, RLS, permisos de mínimo privilegio, autenticación, protección de credenciales, auditoría y migraciones como partes del diseño, no añadidos posteriores. He trabajado con despliegues en Vercel y Railway y explorado Docker y Cloudflare Workers. También utilizo Git para revisar diferencias, organizar ramas y documentar cambios. En automatización empresarial exploro n8n, webhooks y flujos de CRM y ERP.
+
+Esta descripción reúne experiencias de diferentes proyectos y líneas de estudio. No afirma que todas las tecnologías estén instaladas en Sandbox, que todas las integraciones estén activas en producción ni que haya verificado nuevamente cada repositorio privado.
+
 ## Calidad sin depender de GitHub Actions
 
 Mi criterio es investigar, implementar, revisar y medir antes de integrar un cambio. Las comprobaciones pueden ejecutarse localmente o en un entorno autorizado sin depender de runners de GitHub Actions.
