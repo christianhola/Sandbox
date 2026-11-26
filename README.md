@@ -28,7 +28,11 @@ Este proyecto documenta esa investigación de forma incremental. Algunas partes 
 
 ## Por qué investigar antes de construir
 
-No estoy en contra de la IA. Mi crítica es que generar código sin comprender el problema, investigar fuentes o validar supuestos puede introducir errores y deuda técnica. Estoy diseñando un agente autónomo que primero reúne evidencia, luego planifica, delega subtareas mediante una cola, ejecuta trabajos autorizados de forma aislada y verifica los resultados antes de integrarlos.
+No estoy en contra de la IA. Lo que cuestiono es que, cuando le pido una tarea sin darle todo el contexto, muchas veces empieza a generar código en lugar de investigar qué está intentando resolver. Para mí, primero debe comprender el problema, consultar documentación, revisar dependencias y reconocer lo que todavía no sabe. Generar código rápido no sirve de mucho si las decisiones no tienen fundamento.
+
+Por eso estoy desarrollando y entrenando mi propio asistente de IA. He experimentado con Transformers en PyTorch, tokenizadores BPE y ajuste fino de modelos base de código abierto mediante SFT y LoRA. Trabajo en la preparación y validación de datasets, la separación de entrenamiento y evaluación, los pesos, los checkpoints y las métricas de aprendizaje. Mi objetivo es enseñar al modelo a identificar cuándo le falta contexto, investigar antes de decidir y verificar sus resultados. Ese comportamiento sigue siendo un objetivo de entrenamiento y evaluación, no un resultado que dé por demostrado.
+
+No creo que todo se resuelva entrenando un modelo. También estoy diseñando un agente autónomo con un orquestador, delegación de subtareas, workers especializados, grafos de dependencias, colas y verificación. Exploro servidores MCP para conectar herramientas, sandboxes para ejecutar código de forma aislada, Vercel AI SDK para integrar modelos y tool calling, y embeddings y RAG para recuperar contexto relevante. Quiero combinar estas capas sin confundir lo que aprende el modelo con lo que le proporciona la infraestructura durante la ejecución.
 
 [Diseño del runtime autónomo research-first](docs/research-first-agent-runtime.md): grafo de dependencias, workers especializados, subprocesos, límites de ejecución, reintentos y criterios de evaluación. Incluye un [prototipo local ejecutable](src/meridian_research/agent_runtime/) con [pruebas automatizadas](tests/test_agent_runtime.py). La arquitectura completa sigue en desarrollo.
 
