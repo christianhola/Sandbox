@@ -45,6 +45,30 @@ Me interesa conectar la inteligencia artificial con sistemas de trabajo reales: 
 
 Mi entorno tecnológico incluye Python, TypeScript, Node.js, React, Next.js, PostgreSQL, Prisma y Supabase, junto con plataformas de despliegue como Vercel y Railway. La elección de una tecnología debe responder al problema, sus restricciones y su coste operativo.
 
+## Cómo mantengo el contexto empresarial de un agente: RAG, memoria y Company Graph
+
+No quiero que mi agente dependa únicamente del último mensaje o de lo que aprendió durante el entrenamiento. Estoy diseñando una arquitectura en la que, antes de responder o ejecutar una tarea, el agente pueda recuperar el conocimiento autorizado de la empresa y entender el contexto en el que trabaja. Para eso combino Retrieval-Augmented Generation (RAG), memoria persistente, Company Graph, system prompts y un orquestador de tareas.
+
+### Mi flujo de recuperación de contexto
+
+1. **Identidad y permisos.** Identifico al usuario, su workspace, su rol y el agente seleccionado. Aplico los permisos antes de recuperar documentos o consultar herramientas; no permito que un modelo decida por sí mismo qué información puede ver.
+2. **Indexación.** Los documentos autorizados se dividen en fragmentos (chunking), se convierten en embeddings y se indexan en una base vectorial. Cada fragmento conserva su origen, versión, ámbito de acceso y metadatos. PostgreSQL y pgvector son tecnologías que utilizo o evalúo para esta capa. La indexación debe actualizarse ante cambios y retirar documentos eliminados o cuyo acceso haya sido revocado.
+3. **Recuperación.** Con la consulta del usuario, recupero fragmentos relevantes mediante búsqueda semántica. Planteo combinarla con búsqueda textual y filtros de metadatos cuando sea útil. Si no existe evidencia suficiente o está desactualizada, el agente debe solicitar información o consultar una fuente autorizada, no inventar.
+4. **Company Graph y memoria.** Complemento los documentos con relaciones entre proyectos, tareas, clientes, equipos y decisiones. Distingo la memoria de conversaciones, preferencias, memoria de agentes y conocimiento compartido del workspace. En Meridian he trabajado con persistencia en PostgreSQL, búsqueda semántica y un Company Graph; no doy por validada toda la arquitectura de recuperación conjunta en producción.
+5. **Construcción del prompt.** El orquestador compone un system prompt versionado con instrucciones, políticas y límites de herramientas; incorpora el mensaje actual, historial relevante, memoria, información empresarial recuperada y sus fuentes como datos separados. Mi propuesta de compactación conserva los últimos ocho mensajes más un resumen de lo anterior, ajustado al presupuesto de tokens. El resumen no sustituye registros empresariales ni modifica las instrucciones de seguridad.
+6. **Delegación y colas.** Si el objetivo necesita varios pasos, el planificador crea subtareas y el runtime las distribuye respetando dependencias, límites de concurrencia y reintentos. Cada worker recibe solo el contexto necesario y una referencia al origen de la evidencia. Antes de ejecutar una acción sensible, vuelve a comprobar permisos y vigencia de la información. Propongo persistir el estado para recuperar trabajos interrumpidos y evitar efectos duplicados.
+7. **Herramientas y respuesta.** Los servidores MCP permiten consultar sistemas actualizados y ejecutar acciones autorizadas. La respuesta debe citar los documentos recuperados cuando proceda, identificar incertidumbres y conservar evidencia de las operaciones realizadas. Para hechos cambiantes, prefiero consultar el sistema de registro antes de confiar en una memoria antigua.
+
+### Seguridad y evaluación
+
+Trato los documentos recuperados y los resultados de herramientas como datos no confiables: no pueden cambiar el system prompt ni autorizar acciones. Aplico aislamiento por usuario y workspace, controles de acceso por rol, OAuth con permisos acotados y validación de argumentos. El backend conserva las credenciales; el modelo no necesita ver tokens privados.
+
+Mi diseño contempla caché con aislamiento y caducidad, enrutamiento de modelos según coste y capacidad, límites de contexto y observabilidad. Registro versiones de prompts, referencias de documentos y herramientas utilizadas, evitando almacenar secretos y datos innecesarios. Para comprobar la calidad, evalúo relevancia de recuperación, fidelidad a las fuentes, vigencia de la información, latencia, consumo de tokens, aislamiento entre empresas y resistencia a prompt injection. Si una prueba de acceso falla, la tarea no debe aprobarse.
+
+Por ejemplo, si pregunto qué tareas de un proyecto están atrasadas, el agente debe identificar el proyecto autorizado, consultar sus fechas y estados actuales, relacionarlos con sus dependencias y explicar el resultado con sus fuentes. No es necesario reentrenar el modelo cada vez que cambia una tarea.
+
+RAG no garantiza que un agente conozca siempre todo lo que ocurre en una empresa; proporciona un mecanismo para recuperar información relevante y verificable en cada ejecución. Distingo las capacidades con las que ya he trabajado (memoria, Company Graph y búsqueda vectorial) de las mejoras propuestas (compactación, evaluación integral, recuperación híbrida y coordinación persistente). Este documento describe el diseño, no certifica su estado actual en producción.
+
 ## Automatización de procesos con MCP e inteligencia artificial
 
 Mi enfoque de automatización parte de las tareas que una persona realiza diariamente dentro de una empresa. Me interesa identificar procesos repetitivos, operaciones que consumen demasiado tiempo y trabajos que, por su volumen o complejidad, una persona difícilmente podría realizar manualmente a la escala necesaria.
