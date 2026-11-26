@@ -26,6 +26,12 @@ La idea central es sencilla: una IA no debería limitarse a generar código a pa
 
 Este proyecto documenta esa investigación de forma incremental. Algunas partes son propuestas de arquitectura, otras son experimentos y otras son documentación de decisiones. No presento como terminado lo que todavía está en desarrollo.
 
+## Por qué investigar antes de construir
+
+No estoy en contra de la IA. Mi crítica es que generar código sin comprender el problema, investigar fuentes o validar supuestos puede introducir errores y deuda técnica. Estoy diseñando un agente autónomo que primero reúne evidencia, luego planifica, delega subtareas mediante una cola, ejecuta trabajos autorizados de forma aislada y verifica los resultados antes de integrarlos.
+
+[Diseño del runtime autónomo research-first](docs/research-first-agent-runtime.md): grafo de dependencias, workers especializados, subprocesos, límites de ejecución, reintentos y criterios de evaluación. Es una propuesta en desarrollo, no una implementación validada.
+
 ## Qué estoy investigando
 
 El laboratorio explora una arquitectura para agentes que combine un orquestador principal, workers especializados, herramientas con permisos definidos, búsqueda web con fuentes verificables y una capa de evaluación para comparar resultados.
